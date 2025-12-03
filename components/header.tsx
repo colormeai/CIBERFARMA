@@ -8,7 +8,7 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center">
-          <Image src="/logo.png" alt="CIBERFARMA" width={180} height={40} className="h-8 w-auto" priority />
+          <Image src="/logo.png" alt="CIBERFARMA" width={180} height={40} className="h-12 w-auto" priority />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
@@ -27,11 +27,14 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
-          <Button variant="ghost" className="hidden md:inline-flex text-sm font-medium">
-            Entrar
+          <Button variant="ghost" asChild className="hidden md:inline-flex text-sm font-medium">
+            <Link href="/dashboard">Dashboard</Link>
           </Button>
-          <Button className="rounded-full px-6 bg-foreground text-background hover:bg-foreground/90">
-            Começar Agora
+          <Button variant="ghost" asChild className="hidden md:inline-flex text-sm font-medium">
+            <Link href="/dashboard">Entrar</Link>
+          </Button>
+          <Button asChild className="rounded-full px-6 bg-foreground text-background hover:bg-foreground/90">
+            <Link href="/questionario">Começar Agora</Link>
           </Button>
           <Button variant="ghost" size="icon" className="md:hidden">
             <Menu className="h-5 w-5" />

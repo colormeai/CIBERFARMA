@@ -40,7 +40,7 @@ export function Footer() {
                 alt="CIBERFARMA"
                 width={180}
                 height={40}
-                className="h-8 w-auto brightness-0 invert"
+                className="h-12 w-auto brightness-0 invert"
               />
             </Link>
             <p className="mt-4 text-sm text-background/60 leading-relaxed max-w-xs">

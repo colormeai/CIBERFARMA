@@ -5,7 +5,6 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Slider } from "@/components/ui/slider"
 import Link from "next/link"
-import Image from "next/image"
 
 export function WeightLossStats() {
   const [weight, setWeight] = useState(114) // peso em kg (aproximadamente 252 libras)
@@ -17,7 +16,7 @@ export function WeightLossStats() {
   return (
     <section className="py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-3 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Section - Large 20% */}
           <div className="lg:col-span-1">
             <div className="text-center lg:text-left">
@@ -27,67 +26,6 @@ export function WeightLossStats() {
               <p className="text-lg md:text-xl text-foreground max-w-md">
                 Em média, pessoas que usam Monjauro ou Ozempic perdem *15–20% do seu peso em um ano.
               </p>
-            </div>
-          </div>
-
-          {/* Center Section - Weight Transformation Visual */}
-          <div className="lg:col-span-1 relative flex justify-center items-center">
-            <div className="relative w-full max-w-2xl">
-              <div className="flex items-center justify-center gap-4 md:gap-8">
-                {/* Before - Real image */}
-                <div className="flex flex-col items-center">
-                  <div className="relative w-32 h-48 md:w-40 md:h-60 overflow-hidden rounded-2xl shadow-lg border-2 border-border/50">
-                    <Image
-                      src="/man-before-weight-loss-casual.jpg"
-                      alt="Antes da perda de peso"
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 128px, 160px"
-                    />
-                  </div>
-                  <span className="text-xs text-muted-foreground mt-3 font-medium">Antes</span>
-                </div>
-
-                {/* Arrow/Transition */}
-                <div className="flex flex-col items-center justify-center">
-                  <svg
-                    width="80"
-                    height="120"
-                    viewBox="0 0 80 120"
-                    className="text-caramel"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                  >
-                    {/* Curved arrow */}
-                    <path
-                      d="M 10 20 Q 40 60 70 100"
-                      strokeLinecap="round"
-                      fill="none"
-                    />
-                    {/* Arrowhead */}
-                    <path
-                      d="M 60 85 L 70 100 L 55 90 Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  <div className="text-3xl md:text-4xl font-bold text-caramel mt-2">20%</div>
-                </div>
-
-                {/* After - Real image */}
-                <div className="flex flex-col items-center">
-                  <div className="relative w-32 h-48 md:w-40 md:h-60 overflow-hidden rounded-2xl shadow-lg border-2 border-border/50">
-                    <Image
-                      src="/man-after-weight-loss-casual-fit.jpg"
-                      alt="Depois da perda de peso"
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 128px, 160px"
-                    />
-                  </div>
-                  <span className="text-xs text-muted-foreground mt-3 font-medium">Depois</span>
-                </div>
-              </div>
             </div>
           </div>
 
