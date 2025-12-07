@@ -259,37 +259,37 @@ export function DashboardInsights({ entries, metrics }: DashboardInsightsProps) 
               return (
                 <div key={entryKey} className="rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors">
                   <div className="flex items-center justify-between p-4">
-                    <div className="flex items-center gap-4 flex-1">
-                      {/* Emoji de bem-estar - círculos coloridos */}
-                      <div className="text-4xl leading-none">
-                        {wellbeingEmojis[entry.wellbeing] || '🟠'}
+                <div className="flex items-center gap-4 flex-1">
+                  {/* Emoji de bem-estar - círculos coloridos */}
+                  <div className="text-4xl leading-none">
+                    {wellbeingEmojis[entry.wellbeing] || '🟠'}
+                  </div>
+                  
+                  {/* Informações principais */}
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-1">
+                      <div className="font-semibold text-lg">
+                        {medicationLabels[entry.medication] || entry.medication}
                       </div>
-                      
-                      {/* Informações principais */}
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-1">
-                          <div className="font-semibold text-lg">
-                            {medicationLabels[entry.medication] || entry.medication}
-                          </div>
-                          <div className="text-sm text-muted-foreground">
-                            {entry.dosage}
-                          </div>
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          {new Date(entry.date).toLocaleDateString('pt-BR', { 
-                            weekday: 'short',
-                            day: 'numeric', 
-                            month: 'short',
-                            year: 'numeric'
-                          })}
-                        </div>
+                      <div className="text-sm text-muted-foreground">
+                        {entry.dosage}
                       </div>
-                      
-                      {/* Peso */}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {new Date(entry.date).toLocaleDateString('pt-BR', { 
+                        weekday: 'short',
+                        day: 'numeric', 
+                        month: 'short',
+                        year: 'numeric'
+                      })}
+                    </div>
+                  </div>
+                  
+                  {/* Peso */}
                       <div className="text-right mr-4">
                         <div className="text-xl font-bold text-black dark:text-white">
-                          {entry.weight.toFixed(1)} kg
-                        </div>
+                      {entry.weight.toFixed(1)} kg
+                    </div>
                       </div>
                       
                       {/* Botão de Observações */}
