@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { Check, Sparkles, Zap, MessageCircle, Brain, Settings, FileText, Clock, Stethoscope, Activity, UtensilsCrossed, Dumbbell, Star, ArrowRight, Crown } from "lucide-react"
+import { Check, X, Sparkles, Zap, MessageCircle, Brain, Settings, FileText, Clock, Stethoscope, Activity, UtensilsCrossed, Dumbbell, Star, ArrowRight, Crown } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
@@ -27,6 +27,12 @@ const plans = [
       { icon: FileText, text: 'Reemissão de receitas sem custo' },
       { icon: Stethoscope, text: 'Acompanhamento médico sempre que necessário' },
       { icon: Activity, text: 'Monitoramento de evolução semanal' },
+    ],
+    excludedFeatures: [
+      { icon: UtensilsCrossed, text: 'Nutricionista 100% online' },
+      { icon: UtensilsCrossed, text: 'Dieta personalizada mensal' },
+      { icon: Dumbbell, text: 'Treino personalizado mensal' },
+      { icon: Sparkles, text: 'Acesso antecipado a novos programas CIBERMED' },
     ],
     footer: 'Perfeito para o ciclo natural de 90 dias do GLP-1.',
   },
@@ -56,6 +62,7 @@ const plans = [
       { icon: Dumbbell, text: 'Treino personalizado mensal' },
       { icon: Sparkles, text: 'Acesso antecipado a novos programas CIBERMED' },
     ],
+    excludedFeatures: [],
     footer: 'Pode parcelar em 12x no checkout.',
   },
 ]
@@ -83,14 +90,14 @@ export function PricingPlans() {
                 className={cn(
                   "relative bg-card rounded-3xl p-8 md:p-10 border-2 transition-all duration-300 overflow-hidden",
                   isPromo
-                    ? "border-indigo-500/50 shadow-2xl md:scale-105 z-10 bg-gradient-to-br from-indigo-50/50 via-card to-purple-50/30 dark:from-indigo-950/20 dark:via-card dark:to-purple-950/10"
-                    : "border-border/50 hover:border-indigo-300/50 hover:shadow-lg"
+                    ? "border-foreground/20 shadow-2xl md:scale-105 z-10 bg-gradient-to-br from-warm-beige/30 via-card to-cream/20"
+                    : "border-border/50 hover:border-foreground/20 hover:shadow-lg"
                 )}
               >
                 {/* Badge de Promoção - Design Elegante */}
                 {isPromo && plan.badge && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
-                    <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white px-6 py-2 rounded-full text-xs font-bold shadow-xl flex items-center gap-2 backdrop-blur-sm border border-white/20">
+                    <div className="bg-foreground text-background px-6 py-2 rounded-full text-xs font-bold shadow-xl flex items-center gap-2 border border-foreground/10">
                       <Crown className="h-3.5 w-3.5" />
                       {plan.badge}
                     </div>
@@ -99,7 +106,7 @@ export function PricingPlans() {
 
                 {/* Efeito de brilho sutil no topo */}
                 {isPromo && (
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500" />
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-foreground/30 via-foreground/50 to-foreground/30" />
                 )}
 
                 {/* Header do Plano */}
@@ -107,7 +114,7 @@ export function PricingPlans() {
                   <div className="flex items-center gap-3 mb-3">
                     <h3 className={cn(
                       "text-3xl md:text-4xl font-bold",
-                      isPromo ? "bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent" : "text-foreground"
+                      isPromo ? "text-foreground" : "text-foreground"
                     )}>
                       {plan.name}
                     </h3>
@@ -133,7 +140,7 @@ export function PricingPlans() {
                       <div className="flex items-baseline gap-2">
                         <span className={cn(
                           "text-5xl md:text-6xl font-bold",
-                          isPromo ? "bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent" : "text-foreground"
+                          isPromo ? "text-foreground" : "text-foreground"
                         )}>
                           {plan.currency} {plan.price}
                         </span>
@@ -166,7 +173,7 @@ export function PricingPlans() {
                     className={cn(
                       "w-full rounded-full py-7 text-lg font-semibold transition-all duration-300 group relative overflow-hidden",
                       isPromo
-                        ? "bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 text-white hover:from-indigo-700 hover:via-purple-700 hover:to-indigo-700 shadow-lg hover:shadow-xl hover:scale-[1.02]"
+                        ? "bg-foreground text-background hover:bg-foreground/90 shadow-lg hover:shadow-xl hover:scale-[1.02]"
                         : "bg-foreground text-background hover:bg-foreground/90"
                     )}
                   >
@@ -201,7 +208,7 @@ export function PricingPlans() {
                             <div className="flex items-center gap-2">
                               <Icon className={cn(
                                 "h-4 w-4 flex-shrink-0",
-                                isPromo ? "text-indigo-600 dark:text-indigo-400" : "text-muted-foreground"
+                                isPromo ? "text-foreground/70" : "text-muted-foreground"
                               )} />
                               <span className="text-sm text-foreground leading-relaxed font-medium">
                                 {feature.text}
@@ -212,6 +219,25 @@ export function PricingPlans() {
                                 {feature.subtext}
                               </p>
                             )}
+                          </div>
+                        </li>
+                      )
+                    })}
+                    {/* Features excluídas para EVO90 */}
+                    {!isPromo && plan.excludedFeatures && plan.excludedFeatures.map((feature, idx) => {
+                      const Icon = feature.icon
+                      return (
+                        <li key={`excluded-${idx}`} className="flex items-start gap-3 group opacity-60">
+                          <div className="p-1.5 rounded-lg mt-0.5 transition-colors bg-red-100 dark:bg-red-950/30 group-hover:bg-red-200 dark:group-hover:bg-red-950/50">
+                            <X className="h-4 w-4 text-red-600 dark:text-red-400" />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <Icon className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
+                              <span className="text-sm text-muted-foreground leading-relaxed font-medium line-through">
+                                {feature.text}
+                              </span>
+                            </div>
                           </div>
                         </li>
                       )
@@ -229,8 +255,8 @@ export function PricingPlans() {
                 {/* Decoração de fundo elegante para plano promocional */}
                 {isPromo && (
                   <>
-                    <div className="absolute -top-20 -right-20 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -z-10" />
-                    <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -z-10" />
+                    <div className="absolute -top-20 -right-20 w-64 h-64 bg-foreground/5 rounded-full blur-3xl -z-10" />
+                    <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-foreground/5 rounded-full blur-3xl -z-10" />
                   </>
                 )}
               </div>

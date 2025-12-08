@@ -3,15 +3,17 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ArrowLeft, Upload, Check } from "lucide-react"
+import { ArrowRight, ArrowLeft, Upload, Check, Loader2, Lock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
+import { salvarQuestionario } from "@/lib/actions/questionario"
+import { toast } from "sonner"
 
-type Block = "block1" | "block2" | "block3" | "block4" | "block5" | "block6" | "completed"
+type Block = "block1" | "block2" | "block3" | "block4" | "block5" | "block6" | "block7" | "completed"
 
 interface FormData {
   // Bloco 1
@@ -40,6 +42,9 @@ interface FormData {
   medicamentoNome: string
   // Bloco 6
   exames: string
+  // Bloco 7
+  whatsapp: string
+  email: string
 }
 
 export default function QuestionarioPage() {
@@ -65,10 +70,13 @@ export default function QuestionarioPage() {
     medicamentoEspecifico: "",
     medicamentoNome: "",
     exames: "",
+    whatsapp: "",
+    email: "",
   })
 
   const [bmi, setBmi] = useState<number | null>(null)
   const [bmiCategory, setBmiCategory] = useState<string>("")
+  const [isSaving, setIsSaving] = useState(false)
 
   // Calcular IMC automaticamente
   useEffect(() => {
@@ -126,22 +134,51 @@ export default function QuestionarioPage() {
         return formData.medicamentoEspecifico !== ""
       case "block6":
         return true // Opcional
+      case "block7":
+        // Validar telefone (deve ter pelo menos 10 dígitos: (11) 98765-4321 = 11 dígitos)
+        const phoneDigits = formData.whatsapp.replace(/\D/g, '')
+        const isValidPhone = phoneDigits.length >= 10 && phoneDigits.length <= 11
+        // Validar email básico
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        const isValidEmail = emailRegex.test(formData.email)
+        return isValidPhone && isValidEmail
       default:
         return false
     }
   }
 
-  const goToNext = () => {
-    const blockOrder: Block[] = ["block1", "block2", "block3", "block4", "block5", "block6", "completed"]
+  const goToNext = async () => {
+    const blockOrder: Block[] = ["block1", "block2", "block3", "block4", "block5", "block6", "block7", "completed"]
     const currentIndex = blockOrder.indexOf(currentBlock)
-    if (currentIndex < blockOrder.length - 1) {
+    
+    // Se estiver no último bloco (block7), salvar os dados antes de finalizar
+    if (currentBlock === "block7") {
+      setIsSaving(true)
+      try {
+        const result = await salvarQuestionario(formData)
+        
+        if (result.success) {
+          toast.success('Questionário salvo com sucesso!')
+          setCurrentBlock("completed")
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        } else {
+          toast.error(`Erro ao salvar: ${result.error}`)
+          console.error('Erro ao salvar questionário:', result.error)
+        }
+      } catch (error) {
+        toast.error('Erro inesperado ao salvar o questionário')
+        console.error('Erro inesperado:', error)
+      } finally {
+        setIsSaving(false)
+      }
+    } else if (currentIndex < blockOrder.length - 1) {
       setCurrentBlock(blockOrder[currentIndex + 1])
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
   }
 
   const goToPrevious = () => {
-    const blockOrder: Block[] = ["block1", "block2", "block3", "block4", "block5", "block6", "completed"]
+    const blockOrder: Block[] = ["block1", "block2", "block3", "block4", "block5", "block6", "block7", "completed"]
     const currentIndex = blockOrder.indexOf(currentBlock)
     if (currentIndex > 0) {
       setCurrentBlock(blockOrder[currentIndex - 1])
@@ -495,6 +532,82 @@ export default function QuestionarioPage() {
           </div>
         )}
 
+        {/* Bloco 7 - Contato */}
+        {currentBlock === "block7" && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <BlockContainer>
+              <BlockTitle>Qual o seu contato?</BlockTitle>
+              
+              <div className="space-y-6 mt-6">
+                {/* WhatsApp */}
+                <div>
+                  <Label htmlFor="whatsapp" className="text-foreground font-medium mb-3 block">
+                    Número de WhatsApp (com DDD)
+                  </Label>
+                  <div className="flex gap-3">
+                    <div className="w-24">
+                      <Input
+                        id="whatsapp-country"
+                        value="BR +55"
+                        disabled
+                        className="bg-gray-50 text-muted-foreground cursor-not-allowed"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <Input
+                        id="whatsapp"
+                        type="tel"
+                        value={formData.whatsapp}
+                        onChange={(e) => {
+                          // Formatar telefone: (11) 98765-4321
+                          let value = e.target.value.replace(/\D/g, '')
+                          if (value.length <= 11) {
+                            if (value.length <= 2) {
+                              value = value
+                            } else if (value.length <= 6) {
+                              value = `(${value.slice(0, 2)}) ${value.slice(2)}`
+                            } else if (value.length <= 10) {
+                              value = `(${value.slice(0, 2)}) ${value.slice(2, 6)}-${value.slice(6)}`
+                            } else {
+                              value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7, 11)}`
+                            }
+                            updateFormData("whatsapp", value)
+                          }
+                        }}
+                        placeholder="(11) 98765-4321"
+                        className="bg-white"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div>
+                  <Label htmlFor="email" className="text-foreground font-medium mb-3 block">
+                    E-mail
+                  </Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => updateFormData("email", e.target.value)}
+                    placeholder="seuemail@exemplo.com"
+                    className="bg-white"
+                  />
+                </div>
+
+                {/* Mensagem de privacidade */}
+                <div className="flex items-center gap-2 pt-4 border-t border-warm-gray/30">
+                  <Lock className="w-4 h-4 text-amber-600" />
+                  <p className="text-sm text-muted-foreground">
+                    Suas informações são confidenciais e seguras
+                  </p>
+                </div>
+              </div>
+            </BlockContainer>
+          </div>
+        )}
+
         {/* Completed */}
         {currentBlock === "completed" && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -534,11 +647,25 @@ export default function QuestionarioPage() {
           )}
           <Button
             onClick={goToNext}
-            disabled={!canProceed()}
+            disabled={!canProceed() || isSaving}
               className="rounded-lg px-6 py-5 bg-foreground text-background hover:bg-foreground/90 disabled:opacity-50"
           >
-              {currentBlock === "block6" ? "Finalizar" : "Próximo"}
-            <ArrowRight className="ml-2 h-5 w-5" />
+              {isSaving ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Salvando...
+                </>
+              ) : currentBlock === "block7" ? (
+                <>
+                  Finalizar
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </>
+              ) : (
+                <>
+                  Próximo
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </>
+              )}
           </Button>
           </div>
         </footer>
