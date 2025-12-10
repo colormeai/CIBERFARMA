@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { Pencil, Flag, FileText } from "lucide-react"
+import { Pencil, Flag, FileText, Heart, MessageCircle, TrendingUp } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -9,7 +9,7 @@ export function HowItWorksHero() {
   return (
     <section className="relative bg-white py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Main Content */}
           <div className="space-y-8">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
@@ -54,48 +54,51 @@ export function HowItWorksHero() {
           </div>
 
           {/* Right Column - Image */}
-          <div className="relative w-full rounded-lg aspect-[3/4] overflow-hidden">
+          <div className="relative w-full rounded-lg aspect-[3/4] overflow-hidden flex items-center justify-center bg-white min-h-[500px]">
             <Image
-              src="/como.webp"
+              src="/fotocomofunciona.png"
               alt="Como funciona"
               fill
-              className="object-cover"
+              className="object-contain"
             />
           </div>
         </div>
 
         {/* Bottom Features */}
-        <div className="grid md:grid-cols-3 gap-8 mt-16 pt-16 border-t">
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 bg-cream rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
+        <div className="grid md:grid-cols-3 gap-6 mt-16 pt-16 border-t">
+          <div className="bg-white rounded-xl border border-border/50 shadow-sm p-6 md:p-8 hover:shadow-md transition-shadow">
+            <div className="w-16 h-16 mb-6 bg-cream rounded-full flex items-center justify-center">
+              <Heart className="w-8 h-8 text-foreground" />
             </div>
-            <p className="text-base text-foreground">
-              Treinamento e suporte sob demanda para provedores
+            <h3 className="text-xl font-bold text-foreground mb-4">
+              Escuta de verdade
+            </h3>
+            <p className="text-base text-muted-foreground leading-relaxed">
+              Você conta sua história, nós escutamos. Nenhuma recomendação acontece antes de <strong className="text-foreground font-semibold">entender você por completo</strong>. Usamos seus exames, histórico e avaliação detalhada para orientar cada decisão médica.
             </p>
           </div>
           
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 bg-cream rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
+          <div className="bg-white rounded-xl border border-border/50 shadow-sm p-6 md:p-8 hover:shadow-md transition-shadow">
+            <div className="w-16 h-16 mb-6 bg-cream rounded-full flex items-center justify-center">
+              <MessageCircle className="w-8 h-8 text-foreground" />
             </div>
-            <p className="text-base text-foreground">
-              Mais opções de GLP-1 para atender às suas necessidades.
+            <h3 className="text-xl font-bold text-foreground mb-4">
+              Acompanhamento real
+            </h3>
+            <p className="text-base text-muted-foreground leading-relaxed">
+              Sua equipe médica te acompanha pelo app e responde no WhatsApp sempre que precisar. Ajustamos seu protocolo em tempo real conforme sua evolução, <strong className="text-foreground font-semibold">sem esperar a próxima consulta formal</strong>.
             </p>
           </div>
           
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 bg-cream rounded-full flex items-center justify-center">
-              <svg className="w-8 h-8 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+          <div className="bg-white rounded-xl border border-border/50 shadow-sm p-6 md:p-8 hover:shadow-md transition-shadow">
+            <div className="w-16 h-16 mb-6 bg-cream rounded-full flex items-center justify-center">
+              <TrendingUp className="w-8 h-8 text-foreground" />
             </div>
-            <p className="text-base text-foreground">
-              Ajuda você a se sentir saciado mais rápido e por mais tempo.
+            <h3 className="text-xl font-bold text-foreground mb-4">
+              Resultados potencializados
+            </h3>
+            <p className="text-base text-muted-foreground leading-relaxed">
+              Da assistente nutricional disponível 24h ao <strong className="text-foreground font-semibold">acompanhamento especializado com medicamentos</strong>, você tem suporte completo e insights personalizados em tempo real para maximizar seus resultados.
             </p>
           </div>
         </div>
