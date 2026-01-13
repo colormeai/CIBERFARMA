@@ -242,3 +242,6 @@ Para mais informações, consulte:
 
 Veja o arquivo `lib/supabase-examples.ts` para exemplos mais detalhados de uso.
 
+
+
+

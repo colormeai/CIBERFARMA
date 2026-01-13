@@ -132,3 +132,6 @@ const { data } = await supabase
 - [Guia de RLS (Row Level Security)](https://supabase.com/docs/guides/auth/row-level-security)
 - [Referência da API JavaScript](https://supabase.com/docs/reference/javascript/introduction)
 
+
+
+

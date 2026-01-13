@@ -33,3 +33,6 @@ CREATE INDEX IF NOT EXISTS idx_questionarios_email ON questionarios(email);
 COMMENT ON COLUMN questionarios.whatsapp IS 'Número de WhatsApp do paciente com DDD';
 COMMENT ON COLUMN questionarios.email IS 'Email do paciente para envio do plano personalizado';
 
+
+
+
